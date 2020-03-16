@@ -22,8 +22,9 @@ game_board = pygame.image.load('tic-tac-toe-board-png-2.png')
 x_image = pygame.image.load('tictactoe_x.png')
 o_image = pygame.image.load('tictactoe_o.png')
 p1 = True
-p2 = True
+p2 = False
 allQuadrants = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+quadrantLocations = [(115,46),(303,46),(490,46),(115,212),(303,212),(490,212),(115,379),(303,379),(490,379)]
 
 def findQuadrant(xy):
     x = xy[0]
@@ -43,15 +44,31 @@ while not crashed:
             crashed = True
 
     # If it should run every frame it should be under this
-        if pygame.mouse.get_pressed()[0] == 1:
-            print(findQuadrant(pygame.mouse.get_pos()))
 
-            
+    # Runs when mouse is clicked
+        if pygame.mouse.get_pressed()[0] == 1:
+            currentQuadrant = findQuadrant(pygame.mouse.get_pos())
+            if allQuadrants[currentQuadrant - 1] == 0 and p1 == True:
+                allQuadrants[currentQuadrant - 1] = 1
+                p1 = not p1
+                p2 = not p2
+            elif allQuadrants[currentQuadrant - 1] == 0 and p2 == True:
+                allQuadrants[currentQuadrant - 1] = 2
+                p1 = not p1
+                p2 = not p2
 
     # All drawing should be under this
     gameDisplay.fill(blue)
-    gameDisplay.blit(game_board, (0, 0)) 
+    gameDisplay.blit(game_board, (0, 0))
+    
+    i = 0
 
+    for elem in allQuadrants:
+        if elem == 1:
+            gameDisplay.blit(pygame.transform.scale(x_image,(150,150)), (quadrantLocations[i]))
+        if elem == 2:
+            gameDisplay.blit(pygame.transform.scale(o_image,(150,150)), ((quadrantLocations[i])))
+        i += 1
 
     pygame.display.update()
     clock.tick(60)
