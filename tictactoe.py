@@ -23,12 +23,13 @@ x_image = pygame.image.load('tictactoe_x.png')
 o_image = pygame.image.load('tictactoe_o.png')
 p1 = True
 p2 = True
+allQuadrants = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 def findQuadrant(xy):
     x = xy[0]
     y = xy[1]
-    column = (x - 109)/187
-    row = (y - 42)/165
+    column = math.ceil((x - 108)/187)
+    row = math.ceil((y - 40)/165)
     quadrant = (row - 1) * 3 + column
     return quadrant
 
@@ -43,8 +44,9 @@ while not crashed:
 
     # If it should run every frame it should be under this
         if pygame.mouse.get_pressed()[0] == 1:
-            print(pygame.mouse.get_pos())
-            print(math.ceil(findQuadrant(pygame.mouse.get_pos())))
+            print(findQuadrant(pygame.mouse.get_pos()))
+
+            
 
     # All drawing should be under this
     gameDisplay.fill(blue)
