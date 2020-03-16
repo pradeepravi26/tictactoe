@@ -23,6 +23,8 @@ x_image = pygame.image.load('tictactoe_x.png')
 o_image = pygame.image.load('tictactoe_o.png')
 p1 = True
 p2 = False
+player_1_wins = False
+player_2_wins = False
 allQuadrants = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 quadrantLocations = [(115,46),(303,46),(490,46),(115,212),(303,212),(490,212),(115,379),(303,379),(490,379)]
 
@@ -33,6 +35,12 @@ def findQuadrant(xy):
     row = math.ceil((y - 40)/165)
     quadrant = (row - 1) * 3 + column
     return quadrant
+
+def check_if_win():
+    if allQuadrants[0] + allQuadrants[1] + allQuadrants[2] == 3 or allQuadrants[3] + allQuadrants[4] + allQuadrants[5] == 3 or allQuadrants[6] + allQuadrants[7] + allQuadrants[8] == 3 or allQuadrants[0] + allQuadrants[3] + allQuadrants[6] == 3 or allQuadrants[1] + allQuadrants[4] + allQuadrants[7] == 3 or allQuadrants[2] + allQuadrants[5] + allQuadrants[8] == 3 or allQuadrants[0] + allQuadrants[4] + allQuadrants[8] == 3 or allQuadrants[2] + allQuadrants[4] + allQuadrants[6] == 3:
+        player_1_wins = True
+    if allQuadrants[0] + allQuadrants[1] + allQuadrants[2] == 6 or allQuadrants[3] + allQuadrants[4] + allQuadrants[5] == 6 or allQuadrants[6] + allQuadrants[7] + allQuadrants[8] == 6 or allQuadrants[0] + allQuadrants[3] + allQuadrants[6] == 6 or allQuadrants[1] + allQuadrants[4] + allQuadrants[7] == 6 or allQuadrants[2] + allQuadrants[5] + allQuadrants[8] == 6 or allQuadrants[0] + allQuadrants[4] + allQuadrants[8] == 6 or allQuadrants[2] + allQuadrants[4] + allQuadrants[6] == 6:
+        player_2_wins = True
 
 
 # One iter of this while loop = basically 1 frame
@@ -53,9 +61,16 @@ while not crashed:
                 p1 = not p1
                 p2 = not p2
             elif allQuadrants[currentQuadrant - 1] == 0 and p2 == True:
-                allQuadrants[currentQuadrant - 1] = 2
+                allQuadrants[currentQuadrant - 1] = 4
                 p1 = not p1
                 p2 = not p2
+            if allQuadrants[0] + allQuadrants[1] + allQuadrants[2] == 3 or allQuadrants[3] + allQuadrants[4] + allQuadrants[5] == 3 or allQuadrants[6] + allQuadrants[7] + allQuadrants[8] == 3 or allQuadrants[0] + allQuadrants[3] + allQuadrants[6] == 3 or allQuadrants[1] + allQuadrants[4] + allQuadrants[7] == 3 or allQuadrants[2] + allQuadrants[5] + allQuadrants[8] == 3 or allQuadrants[0] + allQuadrants[4] + allQuadrants[8] == 3 or allQuadrants[2] + allQuadrants[4] + allQuadrants[6] == 3:
+                player_1_wins = True
+                print("player 1 wins")
+            if allQuadrants[0] + allQuadrants[1] + allQuadrants[2] == 12 or allQuadrants[3] + allQuadrants[4] + allQuadrants[5] == 12 or allQuadrants[6] + allQuadrants[7] + allQuadrants[8] == 12 or allQuadrants[0] + allQuadrants[3] + allQuadrants[6] == 12 or allQuadrants[1] + allQuadrants[4] + allQuadrants[7] == 12 or allQuadrants[2] + allQuadrants[5] + allQuadrants[8] == 12 or allQuadrants[0] + allQuadrants[4] + allQuadrants[8] == 12 or allQuadrants[2] + allQuadrants[4] + allQuadrants[6] == 12:
+                player_2_wins = True
+                print("player 2 wins")
+
 
     # All drawing should be under this
     gameDisplay.fill(blue)
@@ -66,7 +81,7 @@ while not crashed:
     for elem in allQuadrants:
         if elem == 1:
             gameDisplay.blit(pygame.transform.scale(x_image,(150,150)), (quadrantLocations[i]))
-        if elem == 2:
+        if elem == 4:
             gameDisplay.blit(pygame.transform.scale(o_image,(150,150)), ((quadrantLocations[i])))
         i += 1
 
